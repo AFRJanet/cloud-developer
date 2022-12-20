@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a345a18e-1855-4096-844c-d14b8b0616d9",
+		"_postman_id": "ec2a7949-3452-4251-b069-d555ec37de86",
 		"name": "udacity-image-filter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "24336384"
@@ -122,10 +122,28 @@
 					"response": []
 				},
 				{
-					"name": "{{host}}/filteredimage?image_url=https://timedotcom.files.wordpress.com/2019/03/kitten-report.jpg",
+					"name": "{{host}}/api/v0/images/filteredimage?image_url=",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v0/images/filteredimage?image_url=https://images.freeimages.com/images/large-previews/4aa/grace-1540543.jpg",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"images",
+								"filteredimage"
+							],
+							"query": [
+								{
+									"key": "image_url",
+									"value": "https://images.freeimages.com/images/large-previews/4aa/grace-1540543.jpg"
+								}
+							]
+						}
 					},
 					"response": []
 				}
