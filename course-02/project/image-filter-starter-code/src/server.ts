@@ -51,11 +51,11 @@ import { Model } from 'sequelize-typescript';
   
   // Root Endpoint
   // Displays a simple message to the user
-  app.get('/filteredimage?image_url={{}}', async( req: Request, res: Response ) => {
-    
+  // app.get('/filteredimage?image_url={{}}', async( req: Request, res: Response ) => {
 
-    return res.status(200).send(`try GET /filteredimage?image_url={{}}`);
-  });
+
+  //   return res.status(200).send(`try GET /filteredimage?image_url={{}}`);
+  // });
   
   // app.get( "/", async ( req: Request, res: Response ) => {
   //   res.send("try GET /filteredimage?image_url={{}}")
