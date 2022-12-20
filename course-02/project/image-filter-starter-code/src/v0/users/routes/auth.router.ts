@@ -29,7 +29,6 @@ function generateJWT(user: User): string {
    return jwt.sign(user.toJSON(), config.jwt.secret);
 }
 
-
 //****************************************************************
 //                 EXPORTS
 //****************************************************************
@@ -82,8 +81,8 @@ router.post('/register',
             return res.status(400).send(`The new User could not get registered with email ${req.body.email}.`);
          });
 
-      return res.status(200).send(`The User ${username} is registered with the email: ${email}.`);
-   })
+      return res.status(200).json({username: username, email: email});
+   });
 
 
 router.get('/verify',
@@ -96,6 +95,7 @@ router.get('/verify',
 router.post('/login', async (req: Request, res: Response) => {
    const email = req.body.email;
    const password = req.body.password;
+
    // check email is valid
    if (!email || !EmailValidator.validate(email)) {
       return res.status(400).send({ auth: false, message: 'Email is required or malformed' });
@@ -122,9 +122,9 @@ router.post('/login', async (req: Request, res: Response) => {
    // Generate JWT
    const jwt = generateJWT(user);
 
-   res.status(200).send({ auth: true, token: jwt, user: user.short() });
+   return res.status(200).json({ auth: true, token: jwt, user: user.short() });
    // added return
-   return;
+   // return;
 });
 
 export const AuthRouter: Router = router;

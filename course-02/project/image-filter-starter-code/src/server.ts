@@ -13,7 +13,7 @@ import { Model } from 'sequelize-typescript';
   await sequelize.addModels(V0MODELS);
 
   // Do not drop content of tables force:false
-  await sequelize.sync({logging:console.log, force:true})
+  await sequelize.sync({logging:console.log, force:false})
   .then(() => {
       return console.log(`Connection established to database ${process.env.POSTGRESS_HOST}.`);
   })
@@ -51,9 +51,11 @@ import { Model } from 'sequelize-typescript';
   
   // Root Endpoint
   // Displays a simple message to the user
-  // app.get( "/", async ( req: Request, res: Response ) => {
-  //   res.status(200).send("try GET /filteredimage?image_url={{}}")
-  // } );
+  app.get('/filteredimage?image_url={{}}', async( req: Request, res: Response ) => {
+    
+
+    return res.status(200).send(`try GET /filteredimage?image_url={{}}`);
+  });
   
   // app.get( "/", async ( req: Request, res: Response ) => {
   //   res.send("try GET /filteredimage?image_url={{}}")
