@@ -1,8 +1,26 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import { sequelize } from './sequelize';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
+import { IndexRouter } from './v0/index.router';
+
+// Definitions of the table User
+import { V0MODELS } from './v0/model.index';
+import { Model } from 'sequelize-typescript';
 
 (async () => {
+
+  await sequelize.addModels(V0MODELS);
+
+  // Do not drop content of tables force:false
+  await sequelize.sync({logging:console.log, force:false})
+  .then(() => {
+      return console.log(`Connection established to database ${process.env.POSTGRESS_HOST}.`);
+  })
+  .catch((error:any)=>{
+      return console.error(error);
+  });
+
 
   // Init the Express application
   const app = express();
@@ -33,14 +51,26 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/", async ( req, res ) => {
-    res.send("try GET /filteredimage?image_url={{}}")
-  } );
+  // app.get('/filteredimage?image_url={{}}', async( req: Request, res: Response ) => {
+
+
+  //   return res.status(200).send(`try GET /filteredimage?image_url={{}}`);
+  // });
   
+  // app.get( "/", async ( req: Request, res: Response ) => {
+  //   res.send("try GET /filteredimage?image_url={{}}")
+  // } );
+  
+  app.use('/api/v0/', IndexRouter)
+
+  // Root URI call
+  app.get( "/", async ( req, res ) => {
+    res.send( "/api/v0/" );
+  } );
 
   // Start the Server
   app.listen( port, () => {
-      console.log( `server running http://localhost:${ port }` );
+      console.log( `Local server running http://localhost:${ port }` );
       console.log( `press CTRL+C to stop server` );
   } );
 })();
