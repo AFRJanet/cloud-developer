@@ -122,12 +122,12 @@
 					"response": []
 				},
 				{
-					"name": "{{host}}/api/v0/images/filterimage?image_url=",
+					"name": "{{host}}/api/v0/images/filteredimage?image_url=",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/v0/images/filterimage?image_url=https://images.freeimages.com/images/large-previews/4aa/grace-1540543.jpg",
+							"raw": "{{host}}/api/v0/images/filteredimage?image_url=https://images.freeimages.com/images/large-previews/4aa/grace-1540543.jpg",
 							"host": [
 								"{{host}}"
 							],
@@ -135,7 +135,7 @@
 								"api",
 								"v0",
 								"images",
-								"filterimage"
+								"filteredimage"
 							],
 							"query": [
 								{
