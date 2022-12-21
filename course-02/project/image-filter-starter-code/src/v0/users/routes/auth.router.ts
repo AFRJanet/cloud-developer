@@ -33,6 +33,10 @@ function generateJWT(user: User): string {
 //                 EXPORTS
 //****************************************************************
 export function requireAuthentification(req: Request, res: Response, next: NextFunction) {
+
+   console.log(`req.headers: ${req.headers}`);
+   console.log(`req.headers: ${req.headers.authorization}`);
+
    if (!req.headers || !req.headers.authorization) {
       return res.status(401).send({ message: 'No authorization headers.' });
    }
@@ -119,6 +123,7 @@ router.post('/login', async (req: Request, res: Response) => {
       return res.status(401).send({ auth: false, message: 'Unauthorized' });
    }
 
+   console.log("");
    // Generate JWT
    const jwt = generateJWT(user);
 

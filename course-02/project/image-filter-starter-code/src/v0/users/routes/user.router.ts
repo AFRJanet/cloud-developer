@@ -11,15 +11,17 @@ const router: Router = Router();
 // auth.router.post('api/v0/users/auth/login')
 router.use('/auth', AuthRouter);
 
-router.get(':id', async (req: Request, res: Response) => {
-   let {id} = req.params;
-   const item = await User.findByPk(id);
+   router.get('/:email',
+   requireAuthentification,
+   async (req: Request, res: Response) => {
+      // let { email } = req.params;
+      let { email } = req.query;
+      const user = await User.findByPk(email.toString());
 
-   if(item){
-      res.status(200).send(item);
-   }
+      if (!user)
+         return res.status(404).send(`User does not exist with email: ${email}`);
 
-   return res.status(400).send('User does not exist');
-});
+      return res.status(200).send(`User ${user.user_name} exist with email: ${user.email}.`);
+   });
 
 export const UserRouter: Router = router;
