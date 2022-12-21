@@ -40,7 +40,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"JohnDoe\",\r\n\t\"email\": \"jondoe@arcor.de\",\r\n\t\"password\": \"Mtr96ZHjg1s\"\r\n}",
+							"raw": "{\r\n    \"username\": \"JohnDoe\",\r\n\t\"email\": \"johndoe@arcor.de\",\r\n\t\"password\": \"Mtr96ZHjg1s\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -78,7 +78,7 @@
 									"    const jsonData = pm.response.json();\r",
 									"\r",
 									"    pm.expect(jsonData.auth).to.eql(true);\r",
-									"    pm.expect(jsonData.user.email).to.eql(\"jondoe@arcor.de\");\r",
+									"    pm.expect(jsonData.user.email).to.eql(\"johndoe@arcor.de\");\r",
 									"});\r",
 									"\r",
 									"// pm.test(\"Token is valid and not expired\", function () {\r",
@@ -91,6 +91,16 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"token\", \"variable_value\");\r",
+									"//pm.collectionVariables.unset(\"token\");"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -98,7 +108,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"email\": \"jondoe@arcor.de\",\r\n\t\"password\": \"Mtr96ZHjg1s\"\r\n}",
+							"raw": "{\r\n\t\"email\": \"johndoe@arcor.de\",\r\n\t\"password\": \"Mtr96ZHjg1s\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -123,6 +133,18 @@
 				},
 				{
 					"name": "{{host}}/api/v0/images/filteredimage?image_url=",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -146,10 +168,81 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "{{host}}/api/v0/users/auth/:email",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// pm.globals.set(\"token\", \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvbmRvZUBhcmNvci5kZSIsInVzZXJfbmFtZSI6IkpvaG5Eb2UiLCJwYXNzd29yZF9oYXNoIjoiJDJiJDEwJGE4VFpBc2txa0d5VUR5RFVoLmxZYWV4ck82TFVJQUFkS1FTcm9HUDBPU0YvRlouOVRzM0xtIiwiY3JlYXRlZEF0IjoiMjAyMi0xMi0yMFQxNzozMDo0NS4zMzdaIiwidXBkYXRlZEF0IjoiMjAyMi0xMi0yMFQxNzozMDo0NS4zMzdaIiwiaWF0IjoxNjcxNjI3NDk2fQ.j-VpBhx8vPu9t1LGESC7Xof8K6bvtrG1horghjDsbt8\");\r",
+									"\r",
+									"pm.globals.set(\"token\",\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v0/users/auth?email=jondoe@arcor.de",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"users",
+								"auth"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "jondoe@arcor.de"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// const token = pm.environment.get(\"JWT_TOKEN\");",
+							"",
+							"pm.collectionVariables.set(\"token\", \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAYXJjb3IuZGUiLCJ1c2VyX25hbWUiOiJKb2huRG9lIiwicGFzc3dvcmRfaGFzaCI6IiQyYiQxMCRTb1B3ZktndzRUUlU5dUdWS3RlRTJ1LzVaSGtxalprZEw2TEQ5ZjRnUFVGd2p0R1Y4YTlWVyIsImNyZWF0ZWRBdCI6IjIwMjItMTItMjFUMTM6MDY6MjcuNzc4WiIsInVwZGF0ZWRBdCI6IjIwMjItMTItMjFUMTM6MDY6MjcuNzc5WiIsImlhdCI6MTY3MTYyODM3NX0.0Xk-ex4wSWxBdxGskUhJnrP8YquhKU6QIs-5B61UvnU\");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -175,6 +268,11 @@
 			"key": "host",
 			"value": "http://localhost:8082",
 			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"disabled": true
 		}
 	]
 }

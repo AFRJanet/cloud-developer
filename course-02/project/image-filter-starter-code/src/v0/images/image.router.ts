@@ -3,6 +3,7 @@ import { filterImageFromURL, deleteLocalFiles } from './../../util/util';
 import path from 'path';
 import jQuery from 'querystring';
 import { filter } from 'bluebird';
+import { requireAuthentification } from '../users/routes/auth.router';
 
 const router: Router = Router();
 
@@ -33,6 +34,7 @@ router.get("/", async (req: Request, res: Response) => {
 //! END @TODO1
 //   ../filteredimage?image_url=requested_url"
 router.get("/filteredimage/",
+   requireAuthentification,
    async (req: Request, res: Response, next) => {
 
       var image_url = req.query.image_url;

@@ -32,6 +32,14 @@ import { requireAuthentification } from './v0/users/routes/auth.router';
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
 
+  //CORS Should be restricted
+  app.use(function(req, res, next) {
+    res.setHeader('WWW-Authenticate', 'Bearer');
+    res.header("Access-Control-Allow-Origin", "http://localhost:8082");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
+  });
+
   // IndexRouter uses
   // - ImageRouter
   // - UserRouter
