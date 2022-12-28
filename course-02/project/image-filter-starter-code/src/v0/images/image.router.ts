@@ -62,7 +62,7 @@ router.get("/filteredimage/",
 
 // Get a signed url to put a new item in the bucket
 router.get('/signed-url/:fileName',
-   // requireAuthentification,
+   requireAuthentification,
    async (req: Request, res: Response) => {
       let { fileName } = req.params;
       // console.log(`FileName: ${fileName}.`);
