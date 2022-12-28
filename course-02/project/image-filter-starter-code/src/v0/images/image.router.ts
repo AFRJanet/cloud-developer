@@ -1,9 +1,10 @@
 import { Router, Request, Response } from 'express';
 import { filterImageFromURL, deleteLocalFiles } from './../../util/util';
-import path from 'path';
-import jQuery from 'querystring';
-import { filter } from 'bluebird';
+import fs, { readFile } from 'fs';
+import axios from 'axios';
+
 import { requireAuthentification } from '../users/routes/auth.router';
+import * as AWS from './../../aws';
 
 const router: Router = Router();
 
@@ -47,9 +48,6 @@ router.get("/filteredimage/",
       if (!filtered)
          return res.status(401).send(`The image_url: ${image_url} seems to not contain an image.`);
 
-      // var options = {
-      //    root: path.join(__dirname + "./../../../deployment_screenshots/tmp")
-      // };
 
       var file_path = (await filtered).toString();
       return res.sendFile(file_path, "", function (error) {
@@ -59,6 +57,19 @@ router.get("/filteredimage/",
             deleteLocalFiles([file_path]);
          }
       });
+   });
+
+
+// Get a signed url to put a new item in the bucket
+router.get('/signed-url/:fileName',
+   // requireAuthentification,
+   async (req: Request, res: Response) => {
+      let { fileName } = req.params;
+      // console.log(`FileName: ${fileName}.`);
+      // const url = AWS.getGetSignedUrl(fileName);
+      const url = AWS.getPutSignedUrl(fileName);
+      // const url = AWS.getGetSignedUrl(fileName);
+      res.status(201).send({ url: url });
    });
 
 export const ImageRouter: Router = router;
