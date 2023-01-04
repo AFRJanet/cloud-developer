@@ -8,7 +8,7 @@
     "node": "^16.13.1"
   },
   "scripts": {
-    "start": "node ./www/server.js",
+    "start": "node \"./www/server.js\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf www/ || true",
     "build": "npm run clean && tsc && xcopy .npmrc \"./www/.npmrc\" && xcopy package.json \"./www/package.json\" && cd www && 7z a -tzip Archive.zip \"./\" && cd ..",   
@@ -28,7 +28,7 @@
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/bluebird": "^3.5.37",
-    "@types/express": "^4.17.14",
+    "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.3.2",
     "@types/node": "^18.11.18",
     "@types/sequelize": "^4.28.14",
@@ -41,7 +41,7 @@
     "aws-sdk": "^2.1279.0",
     "bcrypt": "^5.0.0",
     "email-validator": "^2.0.4",
-    "express": "^4.17.14",
+    "express": "^4.18.2",
     "jimp": "^0.16.1",
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.8.0",

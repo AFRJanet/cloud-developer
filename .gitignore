@@ -36,3 +36,4 @@ node_modules
 venv/
 .vscode
 /course-02/project/image-filter-starter-code/.aws_udagram_profile.bat
+/course-02/project/image-filter-starter-code/cloud-cdnd-c2-final.postman_collection.json
