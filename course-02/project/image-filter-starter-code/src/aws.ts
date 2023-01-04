@@ -1,11 +1,8 @@
 import AWS = require('aws-sdk');
-import { blob } from 'stream/consumers';
 import { config } from './config/config';
-import fs, { readFile } from 'fs';
-// import fetch from 'node-fetch';
-import fetch = require('node-fetch');
 
-const c = config.dev;
+// const c = config.dev;
+const c = config.prod;
 
 //Configure AWS
 if (c.aws_profile !== "DEPLOYED") {

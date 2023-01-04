@@ -1,7 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { filterImageFromURL, deleteLocalFiles } from './../../util/util';
 import fs, { readFile } from 'fs';
-import axios from 'axios';
 
 import { requireAuthentification } from '../users/routes/auth.router';
 import * as AWS from './../../aws';

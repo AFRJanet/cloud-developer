@@ -6,14 +6,14 @@ import { IndexRouter } from './v0/index.router';
 
 // Definitions of the table User
 import { V0MODELS } from './v0/model.index';
-import { Model } from 'sequelize-typescript';
-import { requireAuthentification } from './v0/users/routes/auth.router';
 
 (async () => {
 
   await sequelize.addModels(V0MODELS);
 
   // Do not drop content of tables force:false
+
+  // await sequelize.sync({force:false})
   await sequelize.sync({logging:console.log, force:false})
   .then(() => {
       return console.log(`Connection established to database ${process.env.POSTGRESS_HOST}.`);

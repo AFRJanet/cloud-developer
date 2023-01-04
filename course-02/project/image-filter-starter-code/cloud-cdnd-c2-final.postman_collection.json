@@ -96,7 +96,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.collectionVariables.set(\"token\", \"variable_value\");\r",
+									"pm.collectionVariables.set(\"token\", \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAYXJjb3IuZGUiLCJ1c2VyX25hbWUiOiJKb2huRG9lIiwicGFzc3dvcmRfaGFzaCI6IiQyYiQxMCRTb1B3ZktndzRUUlU5dUdWS3RlRTJ1LzVaSGtxalprZEw2TEQ5ZjRnUFVGd2p0R1Y4YTlWVyIsImNyZWF0ZWRBdCI6IjIwMjItMTItMjFUMTM6MDY6MjcuNzc4WiIsInVwZGF0ZWRBdCI6IjIwMjItMTItMjFUMTM6MDY6MjcuNzc5WiIsImlhdCI6MTY3MTYzNjMyM30.H-Hf4Rh7tmY7wF1tgkpMBON7i0Wqqx2QkJujCLj3Iwk\");\r",
 									"//pm.collectionVariables.unset(\"token\");"
 								],
 								"type": "text/javascript"
@@ -104,6 +104,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -188,7 +198,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/v0/users/auth?email=jondoe@arcor.de",
+							"raw": "{{host}}/api/v0/users/auth?email=johndoe@arcor.de",
 							"host": [
 								"{{host}}"
 							],
@@ -201,7 +211,34 @@
 							"query": [
 								{
 									"key": "email",
-									"value": "jondoe@arcor.de"
+									"value": "johndoe@arcor.de"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/api/v0/images/signed-url/:fileName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v0/images/signed-url/:fileName",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"images",
+								"signed-url",
+								":fileName"
+							],
+							"variable": [
+								{
+									"key": "fileName",
+									"value": "filtered.1694.jpg"
 								}
 							]
 						}
@@ -231,14 +268,116 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "upload image with presigned url to s3 bucket",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/D:/Development/Udacity/fullstack_app_project/github/cloud-developer/course-02/project/image-filter-starter-code/deployment_screenshots/tmp/filtered.1694.jpg"
+					}
+				},
+				"url": {
+					"raw": "https://udagramjanetschekdbucketdev.s3.amazonaws.com/filtered.1694.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIASIREHUVI3NJXPPMS%2F20221228%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221228T185751Z&X-Amz-Expires=300&X-Amz-Security-Token=FwoGZXIvYXdzEBEaDKpo2Mk6dCAbyZHgQSLVAYj9g53NCLJCdbdqteLPglzodtsRrRvvqjAaMJyCtYfY2G4P3dwIUw3n%2BDrdkzCYC6vQtA1i8o84lUxSq85YWQ9%2Bvko2rMJqThG0mv6tHXXn%2FZBxrNW6pF59qZcXP5SH%2BdPMLDWiXxWewSh9iEdHvLVwhsGyFuN6Q8Vd9pW0TMET1Fxlh%2FMWb%2BhL%2FFrwF2qPihPTXyCaBsSeQc1wBwBJ%2BkEvkRzDXNZBxjS0QiR0X8s6A8oyPYah0%2Bplw0VTFVDAgh3SHte1XWGlGAtU3cJ7dAu5EX50ayjpy7GdBjIt96R04SbM2tL9uIfshKvwul8P1Ghw5Bee8F6F%2BKjYqCuu%2B0KtIIAZsMUM2mvW&X-Amz-Signature=2210a01ff3ca1a447a616de2fdb1511bd2bd199107a4d7f716fdb76bced8233c&X-Amz-SignedHeaders=host",
+					"protocol": "https",
+					"host": [
+						"udagramjanetschekdbucketdev",
+						"s3",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"filtered.1694.jpg"
+					],
+					"query": [
+						{
+							"key": "X-Amz-Algorithm",
+							"value": "AWS4-HMAC-SHA256"
+						},
+						{
+							"key": "X-Amz-Credential",
+							"value": "ASIASIREHUVI3NJXPPMS%2F20221228%2Fus-east-1%2Fs3%2Faws4_request"
+						},
+						{
+							"key": "X-Amz-Date",
+							"value": "20221228T185751Z"
+						},
+						{
+							"key": "X-Amz-Expires",
+							"value": "300"
+						},
+						{
+							"key": "X-Amz-Security-Token",
+							"value": "FwoGZXIvYXdzEBEaDKpo2Mk6dCAbyZHgQSLVAYj9g53NCLJCdbdqteLPglzodtsRrRvvqjAaMJyCtYfY2G4P3dwIUw3n%2BDrdkzCYC6vQtA1i8o84lUxSq85YWQ9%2Bvko2rMJqThG0mv6tHXXn%2FZBxrNW6pF59qZcXP5SH%2BdPMLDWiXxWewSh9iEdHvLVwhsGyFuN6Q8Vd9pW0TMET1Fxlh%2FMWb%2BhL%2FFrwF2qPihPTXyCaBsSeQc1wBwBJ%2BkEvkRzDXNZBxjS0QiR0X8s6A8oyPYah0%2Bplw0VTFVDAgh3SHte1XWGlGAtU3cJ7dAu5EX50ayjpy7GdBjIt96R04SbM2tL9uIfshKvwul8P1Ghw5Bee8F6F%2BKjYqCuu%2B0KtIIAZsMUM2mvW"
+						},
+						{
+							"key": "X-Amz-Signature",
+							"value": "2210a01ff3ca1a447a616de2fdb1511bd2bd199107a4d7f716fdb76bced8233c"
+						},
+						{
+							"key": "X-Amz-SignedHeaders",
+							"value": "host"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{host}}/api/v0/images/direct-upload/:filePath",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "image/jpeg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/v0/images/direct-upload?filePath=D:/Development/Udacity/fullstack_app_project/github/cloud-developer/course-02/project/image-filter-starter-code/deployment_screenshots/tmp/filtered.1694.jpg",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v0",
+						"images",
+						"direct-upload"
+					],
+					"query": [
+						{
+							"key": "filePath",
+							"value": "D:/Development/Udacity/fullstack_app_project/github/cloud-developer/course-02/project/image-filter-starter-code/deployment_screenshots/tmp/filtered.1694.jpg"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
-		"type": "bearer",
-		"bearer": [
+		"type": "awsv4",
+		"awsv4": [
 			{
-				"key": "token",
-				"value": "{{token}}",
+				"key": "addAuthDataToQuery",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "secretKey",
+				"value": "Esi3AONTgLSZ2gW6/HQywRwYx57CDiK/H1U0ofxP",
+				"type": "string"
+			},
+			{
+				"key": "accessKey",
+				"value": "AKIASIREHUVI5KV6HJR7",
 				"type": "string"
 			}
 		]
@@ -273,6 +412,10 @@
 			"key": "token",
 			"value": "",
 			"disabled": true
+		},
+		{
+			"key": "token",
+			"value": ""
 		}
 	]
 }

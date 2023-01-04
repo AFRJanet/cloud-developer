@@ -1,13 +1,19 @@
 {
-  "name": "udacity-c2-image-filter",
+  "name": "udagram-janetschek-dev-dev",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
+  "engines": {
+    "npm": "^8.1.2",
+    "node": "^16.13.1"
+  },
   "scripts": {
+    "start": "node ./www/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf www/ || true",
-    "build": "npm run clean && tsc && cp package.json www/package.json && mkdir www/tmp/ && cd www && zip -r Archive.zip . && cd ..",
-    "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts"
+    "build": "npm run clean && tsc && xcopy .npmrc \"./www/.npmrc\" && xcopy package.json \"./www/package.json\" && cd www && 7z a -tzip Archive.zip \"./\" && cd ..",   
+    "dev": "ts-node-dev --transpile-only ./src/server.ts",
+    "prod": "tsc && node ./www/server.js"
   },
   "repository": {
     "type": "git",
@@ -24,8 +30,8 @@
     "@types/bluebird": "^3.5.37",
     "@types/express": "^4.17.14",
     "@types/jsonwebtoken": "^8.3.2",
-    "@types/node": "^18.11.9",
-    "@types/sequelize": "^4.28.9",
+    "@types/node": "^18.11.18",
+    "@types/sequelize": "^4.28.14",
     "@types/validator": "^10.11.3",
     "ts-node-dev": "^2.0.0",
     "tslint": "^5.20.1",
@@ -33,21 +39,17 @@
   },
   "dependencies": {
     "aws-sdk": "^2.1279.0",
-    "axios": "^1.2.1",
     "bcrypt": "^5.0.0",
     "email-validator": "^2.0.4",
     "express": "^4.17.14",
     "jimp": "^0.16.1",
     "jsonwebtoken": "^9.0.0",
-    "lodash": "^4.17.15",
-    "node-fetch": "^3.3.0",
-    "node-notifier": "^10.0.1",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.8.0",
-    "sequelize": "^5.10.0",
-    "sequelize-typescript": "^0.6.11",
+    "sequelize": "^6.28.0",
+    "sequelize-typescript": "^2.1.5",
     "swc": "^1.0.11"
   }
 }
