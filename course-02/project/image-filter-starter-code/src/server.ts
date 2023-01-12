@@ -7,6 +7,8 @@ import { IndexRouter } from './v0/index.router';
 // Definitions of the table User
 import { V0MODELS } from './v0/model.index';
 
+// var debug = require('debug')
+
 (async () => {
 
   await sequelize.addModels(V0MODELS);
@@ -22,20 +24,48 @@ import { V0MODELS } from './v0/model.index';
       return console.error(error);
   });
 
-
+  //------------------------------->
   // Init the Express application
   const app = express();
 
   // Set the network port
   const port = process.env.PORT || 8082;
+
+  console.log(`Port of udagram-janetschek-dev-dev is: ${port}`);
+  // const connectToDatabase = async (): Promise<void> => {
+  //   try 
+  //   {
+  //     await sequelize.sync({force:false});
+  //     app.listen(port, () => {
+  //       debug('Port: '+ port);
+  //       // debug info
+  //     });
+  //   } catch (error)
+  //   {
+  //     // debug info
+  //     debug(error);
+  //     process.exit(1);
+  //   }
+  // };
+
+  // void connectToDatabase();
+  //<-------------------------------
+
+
+
   
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
 
   //CORS Should be restricted
   app.use(function(req, res, next) {
-    res.setHeader('WWW-Authenticate', 'Bearer');
-    res.header("Access-Control-Allow-Origin", "http://localhost:8082");
+    // res.setHeader('WWW-Authenticate', 'Bearer');
+    // res.header(`Access-Control-Allow-Origin", "http://localhost:${port}`);
+    // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+
+  //CORS Should be restricted
+    res.header(`Access-Control-Allow-Origin", "http://localhost:${port}`);
+    // res.header("Access-Control-Allow-Origin", "http://localhost:8080");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
   });
