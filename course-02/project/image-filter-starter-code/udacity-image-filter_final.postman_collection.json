@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "ec2a7949-3452-4251-b069-d555ec37de86",
+		"name": "udacity-image-filter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24336384"
+	},
+	"item": [
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "{{host}}/api/v0/users/auth/register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response data is equal to input data\", function () {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.username).to.eql(\"JohnDoe\");\r",
+									"    pm.expect(responseJson.email).to.eql(\"jondoe@arcor.de\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Request password is not available\", function () {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).not.have.property('password');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Max Muster   \",\r\n\t\"email\": \"Max.Muster@arcor.de\",\r\n\t\"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v0/users/auth/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"users",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/api/v0/users/auth/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"login successful status code 200.\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User JohnDoe exist\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData.auth).to.eql(true);\r",
+									"    pm.expect(jsonData.user.email).to.eql(\"johndoe@arcor.de\");\r",
+									"});\r",
+									"\r",
+									"// pm.test(\"Token is valid and not expired\", function () {\r",
+									"//     const jsonData = pm.response.json();\r",
+									"\r",
+									"//     console.log(jsonData.token);\r",
+									"//     pm.environment.set(\"jwt_token\");\r",
+									"//     pm.expect(jsonData.token).to.deep.eql('token_example');\r",
+									"// });"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"token\", \"\");\r",
+									"//pm.collectionVariables.unset(\"token\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"johndoe@arcor.de\",\r\n\t\"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v0/users/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"users",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/api/v0/images/filteredimage?image_url=",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v0/images/filteredimage?image_url=https://images.freeimages.com/images/large-previews/4aa/grace-1540543.jpg",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"images",
+								"filteredimage"
+							],
+							"query": [
+								{
+									"key": "image_url",
+									"value": "https://images.freeimages.com/images/large-previews/4aa/grace-1540543.jpg"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/api/v0/users/auth/:email",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// pm.globals.set(\"token\", \"\");\r",
+									"\r",
+									"pm.globals.set(\"token\",\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v0/users/auth?email=johndoe@arcor.de",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"users",
+								"auth"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "johndoe@arcor.de"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/api/v0/images/signed-url/:fileName",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v0/images/signed-url/:fileName",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v0",
+								"images",
+								"signed-url",
+								":fileName"
+							],
+							"variable": [
+								{
+									"key": "fileName",
+									"value": "filtered.1694.jpg"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// const token = pm.environment.get(\"JWT_TOKEN\");",
+							"",
+							"pm.collectionVariables.set(\"token\", \"\");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "upload image with presigned url to s3 bucket",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/D:/Development/Udacity/fullstack_app_project/github/cloud-developer/course-02/project/image-filter-starter-code/deployment_screenshots/tmp/filtered.1694.jpg"
+					}
+				},
+				"url": {
+					"raw": "",
+					"protocol": "https",
+					"host": [
+						"udagramjanetschekdbucketdev",
+						"s3",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"filtered.1694.jpg"
+					],
+					"query": [
+						{
+							"key": "X-Amz-Algorithm",
+							"value": "AWS4-HMAC-SHA256"
+						},
+						{
+							"key": "X-Amz-Credential",
+							"value": "%2F20221229%2Fus-east-1%2Fs3%2Faws4_request"
+						},
+						{
+							"key": "X-Amz-Date",
+							"value": "20221229T194347Z"
+						},
+						{
+							"key": "X-Amz-Expires",
+							"value": "300"
+						},
+						{
+							"key": "X-Amz-Security-Token",
+							"value": ""
+						},
+						{
+							"key": "X-Amz-Signature",
+							"value": "2ded42a4d20e03985ff41c6afb8761f9abd8b92c1d1048f8afbbb39df98ace4f"
+						},
+						{
+							"key": "X-Amz-SignedHeaders",
+							"value": "host"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{host}}/api/v0/images/direct-upload/:filePath",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "image/jpeg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/v0/images/direct-upload?filePath=D:/Development/Udacity/fullstack_app_project/github/cloud-developer/course-02/project/image-filter-starter-code/deployment_screenshots/tmp/filtered.1694.jpg",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v0",
+						"images",
+						"direct-upload"
+					],
+					"query": [
+						{
+							"key": "filePath",
+							"value": "D:/Development/Udacity/fullstack_app_project/github/cloud-developer/course-02/project/image-filter-starter-code/deployment_screenshots/tmp/filtered.1694.jpg"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:8082",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"disabled": true
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}
