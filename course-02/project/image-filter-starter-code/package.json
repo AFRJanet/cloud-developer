@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.1279.0",
+    "debug": "^4.3.4",
     "email-validator": "^2.0.4",
     "express": "^4.17.14",
     "jimp": "^0.16.1",

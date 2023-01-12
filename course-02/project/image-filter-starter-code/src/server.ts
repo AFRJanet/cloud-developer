@@ -31,28 +31,7 @@ import { V0MODELS } from './v0/model.index';
   // Set the network port
   const port = process.env.PORT || 8082;
 
-  console.log(`Port of udagram-janetschek-dev-dev is: ${port}`);
-  // const connectToDatabase = async (): Promise<void> => {
-  //   try 
-  //   {
-  //     await sequelize.sync({force:false});
-  //     app.listen(port, () => {
-  //       debug('Port: '+ port);
-  //       // debug info
-  //     });
-  //   } catch (error)
-  //   {
-  //     // debug info
-  //     debug(error);
-  //     process.exit(1);
-  //   }
-  // };
-
-  // void connectToDatabase();
-  //<-------------------------------
-
-
-
+  // console.log(`Port of udagram-janetschek-dev-dev is: ${port}`);
   
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
