@@ -1,10 +1,11 @@
 import { Router, Request, Response } from 'express';
 import { filterImageFromURL, deleteLocalFiles } from './../../util/util';
 import fs, { readFile } from 'fs';
-import axios from 'axios';
 
 import { requireAuthentification } from '../users/routes/auth.router';
 import * as AWS from './../../aws';
+
+var debug = require('debug')
 
 const router: Router = Router();
 
@@ -35,7 +36,7 @@ router.get("/", async (req: Request, res: Response) => {
 //! END @TODO1
 //   ../filteredimage?image_url=requested_url"
 router.get("/filteredimage/",
-   requireAuthentification,
+   // requireAuthentification
    async (req: Request, res: Response, next) => {
 
       var image_url = req.query.image_url;
@@ -43,6 +44,7 @@ router.get("/filteredimage/",
       if (!image_url)
          return res.status(400).send(`Please provide an url for image_url.`);
 
+      debug(`ImageUrl will be filtered now: ${image_url}`);
       var filtered = filterImageFromURL(image_url.toString());
 
       if (!filtered)
@@ -50,11 +52,13 @@ router.get("/filteredimage/",
 
 
       var file_path = (await filtered).toString();
+
       return res.sendFile(file_path, "", function (error) {
          if (error) {
             res.status(400).send(`Could not send file: ${filtered} and the error is: ${error}`);
          } else {
             deleteLocalFiles([file_path]);
+            return res.status(200).send(`File is deleted on the temporary storage.`);
          }
       });
    });

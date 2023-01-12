@@ -1,5 +1,4 @@
 import {Table, Column, Model, HasMany, PrimaryKey, CreatedAt, UpdatedAt, Sequelize} from 'sequelize-typescript';
-import { isEmail } from 'validator';
 
 @Table
 export class User extends Model<User> {
