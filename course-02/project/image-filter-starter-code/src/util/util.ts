@@ -37,6 +37,7 @@ export async function filterImageFromURL(inputURL: string): Promise<string> {
       console.log("Error: ", error);
       reject(error);
     }
+    return;
   });
 }
 
