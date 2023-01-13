@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import { config } from './config/config';
 
-// const c = config.dev;
 const c = config.prod;
 
 // Instantiate new Sequelize instance!

@@ -39,27 +39,33 @@ router.get("/filteredimage/",
    // requireAuthentification
    async (req: Request, res: Response, next) => {
 
-      var image_url = req.query.image_url;
+      const query = req.query;
+
+      if(typeof query.image_url !== "string")
+         return res.status(422).send(`The image url must be a string!`);
+
+      const image_url:string = query.image_url;
 
       if (!image_url)
-         return res.status(400).send(`Please provide an url for image_url.`);
+         return res.status(406).send(`Please provide an url for image_url.`);
 
       debug(`ImageUrl will be filtered now: ${image_url}`);
-      var filtered = filterImageFromURL(image_url.toString());
+      const filtered:Promise<string> = filterImageFromURL(image_url);
 
       if (!filtered)
-         return res.status(401).send(`The image_url: ${image_url} seems to not contain an image.`);
+         return res.status(204).send(`The image_url: ${image_url} seems to not contain an image.`);
 
+      const file_path:string = (await filtered).toString();
 
-      var file_path = (await filtered).toString();
-
-      return res.sendFile(file_path, "", function (error) {
+      return res.status(200).sendFile(file_path, "", function (error) {
          if (error) {
             res.status(400).send(`Could not send file: ${filtered} and the error is: ${error}`);
          } else {
             deleteLocalFiles([file_path]);
-            return res.status(200).send(`File is deleted on the temporary storage.`);
+            res.status(200).send(`File is deleted on the temporary storage.`);
+            // next();
          }
+         return;
       });
    });
 
