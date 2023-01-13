@@ -33,33 +33,34 @@ router.get("/", async (req: Request, res: Response) => {
 
 /**************************************************************************** */
 
-//! END @TODO1
-//   ../filteredimage?image_url=requested_url"
+// //! END @TODO1
+// //   ../filteredimage?image_url=requested_url"
 router.get("/filteredimage/",
    // requireAuthentification
    async (req: Request, res: Response, next) => {
 
-      var image_url = req.query.image_url;
+      const query = req.query;
+
+      if(typeof query.image_url !== "string")
+         return res.status(422).send(`The image url must be a string!`);
+
+      const image_url:string = query.image_url;
 
       if (!image_url)
-         return res.status(400).send(`Please provide an url for image_url.`);
+         return res.status(406).send(`Please provide an url for image_url.`);
 
       debug(`ImageUrl will be filtered now: ${image_url}`);
-      var filtered = filterImageFromURL(image_url.toString());
+      filterImageFromURL(image_url).catch( error => {
+         return res.status(400).send(`Could not filter image from url: ${image_url}`);
+      }).then(file_path => {
 
-      if (!filtered)
-         return res.status(401).send(`The image_url: ${image_url} seems to not contain an image.`);
-
-
-      var file_path = (await filtered).toString();
-
-      return res.sendFile(file_path, "", function (error) {
-         if (error) {
-            res.status(400).send(`Could not send file: ${filtered} and the error is: ${error}`);
-         } else {
-            deleteLocalFiles([file_path]);
-            return res.status(200).send(`File is deleted on the temporary storage.`);
-         }
+         if(typeof file_path !== "string")
+            return res.status(422).send(`File Path is not a valid string`);
+         
+            return res.on('finish', () => {
+               var letters: string[] = [file_path.toString()]
+               deleteLocalFiles(letters);
+           }).status(200).sendFile(file_path.toString());
       });
    });
 

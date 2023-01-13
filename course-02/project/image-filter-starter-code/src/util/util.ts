@@ -2,6 +2,16 @@ import fs from "fs";
 import Jimp = require("jimp");
 import path from 'path';
 
+
+// Copied code from stackoverflow to check string is a valid number
+// https://stackoverflow.com/questions/23437476/in-typescript-how-to-check-if-a-string-is-numeric/23440948#23440948
+
+export function isNumber(value: string): boolean {
+  return ((value !== null) &&
+    (value !== '') &&
+    !isNaN(Number(value.toString())));
+}
+
 // filterImageFromURL
 // helper function to download, filter, and save the filtered image locally
 // returns the absolute path to the local image
@@ -9,7 +19,6 @@ import path from 'path';
 //    inputURL: string - a publicly accessible url to an image file
 // RETURNS
 //    an absolute path to a filtered image locally saved file
-
 export async function filterImageFromURL(inputURL: string): Promise<string> {
 
   return new Promise(async (resolve, reject) => {
@@ -28,6 +37,7 @@ export async function filterImageFromURL(inputURL: string): Promise<string> {
       console.log("Error: ", error);
       reject(error);
     }
+    return;
   });
 }
 
@@ -37,7 +47,7 @@ export async function filterImageFromURL(inputURL: string): Promise<string> {
 // useful to cleanup after tasks
 // INPUTS
 //    files: Array<string> an array of absolute paths to files
-export async function deleteLocalFiles(files: Array<string>) {
+export async function deleteLocalFiles(files: Array<string>): Promise<void> {
   for (let file of files) {
     fs.unlinkSync(file);
   }
