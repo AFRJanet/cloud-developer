@@ -4,7 +4,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
-import { updateTodo } from '../../businessLogic/todos'
+import { updateTodo } from '../../helpers/todos'
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
 import { getUserId } from '../utils'
 
@@ -14,9 +14,48 @@ export const handler = middy(
     const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
     // TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
 
+    const userId = getUserId(event)
 
-    return undefined
-)
+    if(!userId)
+    {
+      return {
+        statusCode: 404,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          error: 'User does not exist'
+        })
+      }
+    }
+
+    // TODO
+    const result = updateTodo(updatedTodo, todoId)
+
+    if(result)
+    {
+      return {
+        statusCode: 201,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          todoId: todoId,
+          todo: updatedTodo
+        })
+      }
+    } else {
+      return {
+        statusCode: 404,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          error: 'TodoId could not be updated'
+        })
+      }
+    }
+})
 
 handler
   .use(httpErrorHandler())

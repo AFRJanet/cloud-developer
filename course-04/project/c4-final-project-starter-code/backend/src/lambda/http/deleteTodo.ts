@@ -4,7 +4,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
-import { deleteTodo } from '../../businessLogic/todos'
+import { deleteTodo } from '../../helpers/todos'
 import { getUserId } from '../utils'
 
 export const handler = middy(
@@ -12,7 +12,46 @@ export const handler = middy(
     const todoId = event.pathParameters.todoId
     // TODO: Remove a TODO item by id
     
-    return undefined
+    const userId = getUserId(event)
+
+    if(!userId)
+    {
+      return {
+        statusCode: 404,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          error: 'User does not exist'
+        })
+      }
+    }
+
+    const result = deleteTodo(todoId)
+
+    if(result)
+    {
+      return {
+        statusCode: 201,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          userId: userId,
+          todoId: todoId
+        })
+      }
+    } else {
+      return {
+        statusCode: 404,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          error: 'TodoId could not be deleted'
+        })
+      }
+    }
   }
 )
 
