@@ -8,8 +8,8 @@ import { createTodo } from '../../helpers/todos'
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    const newTodo: CreateTodoRequest = JSON.parse(event.body)
-    const userId = getUserId(event)
+    const newTodo: CreateTodoRequest = JSON.parse(event.body);
+    const userId = getUserId(event);
 
     if(!userId)
     {
@@ -21,7 +21,7 @@ export const handler = middy(
         body: JSON.stringify({
           error: 'User does not exist'
         })
-      }
+      };
     }
 
     const todo = createTodo(newTodo, userId)
@@ -34,11 +34,11 @@ export const handler = middy(
       body: JSON.stringify({
         newTodo: todo
       })
-    }
+    };
 })
 
 handler.use(
   cors({
     credentials: true
   })
-)
+);

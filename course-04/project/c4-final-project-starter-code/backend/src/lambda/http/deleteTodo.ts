@@ -9,8 +9,8 @@ import { getUserId } from '../utils'
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    const todoId = event.pathParameters.todoId
-    const userId = getUserId(event)
+    const todoId = event.pathParameters.todoId;
+    const userId = getUserId(event);
 
     if(!userId)
     {
@@ -22,10 +22,10 @@ export const handler = middy(
         body: JSON.stringify({
           error: 'User does not exist'
         })
-      }
+      };
     }
 
-    const result = await deleteTodo(todoId, userId)
+    const result = await deleteTodo(todoId, userId);
 
     if(result)
     {
@@ -39,7 +39,7 @@ export const handler = middy(
           todoId: todoId,
           todoItem: result
         })
-      }
+      };
     } else {
       return {
         statusCode: 404,
@@ -49,7 +49,7 @@ export const handler = middy(
         body: JSON.stringify({
           error: 'TodoId could not be deleted'
         })
-      }
+      };
     }
   }
 )
@@ -60,4 +60,4 @@ handler
     cors({
       credentials: true
     })
-  )
+  );

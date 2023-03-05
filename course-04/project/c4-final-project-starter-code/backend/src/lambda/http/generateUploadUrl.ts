@@ -9,9 +9,9 @@ import { getUserId } from '../utils'
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    const todoId = event.pathParameters.todoId
+    const todoId = event.pathParameters.todoId;
     // TODO: Return a presigned URL to upload a file for a TODO item with the provided id
-    const userId = getUserId(event)
+    const userId = getUserId(event);
 
     if(!userId)
     {
@@ -23,10 +23,10 @@ export const handler = middy(
         body: JSON.stringify({
           error: 'User does not exist'
         })
-      }
+      };
     }
 
-    const url = await createAttachmentPresignedUrl(todoId)
+    const url = await createAttachmentPresignedUrl(todoId);
 
     if(url)
     {
@@ -39,7 +39,7 @@ export const handler = middy(
           todoId: todoId,
           url: url
         })
-      }
+      };
     } else {
       return {
         statusCode: 404,
@@ -49,7 +49,7 @@ export const handler = middy(
         body: JSON.stringify({
           error: 'TodoId could not get signed upload url'
         })
-      }
+      };
     }
 })
 
@@ -59,4 +59,4 @@ handler
     cors({
       credentials: true
     })
-  )
+  );

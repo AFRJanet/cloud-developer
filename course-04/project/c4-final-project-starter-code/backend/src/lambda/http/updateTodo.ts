@@ -10,10 +10,10 @@ import { getUserId } from '../utils'
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    const todoId = event.pathParameters.todoId
-    const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
+    const todoId = event.pathParameters.todoId;
+    const updatedTodo: UpdateTodoRequest = JSON.parse(event.body);
 
-    const userId = getUserId(event)
+    const userId = getUserId(event);
 
     if(!userId)
     {
@@ -25,10 +25,10 @@ export const handler = middy(
         body: JSON.stringify({
           error: 'User does not exist'
         })
-      }
+      };
     }
 
-    const result = updateTodo(updatedTodo, userId, todoId)
+    const result = updateTodo(updatedTodo, userId, todoId);
 
     if(result)
     {
@@ -41,7 +41,7 @@ export const handler = middy(
           todoId: todoId,
           todo: updatedTodo
         })
-      }
+      };
     } else {
       return {
         statusCode: 404,
@@ -51,7 +51,7 @@ export const handler = middy(
         body: JSON.stringify({
           error: 'TodoId could not be updated'
         })
-      }
+      };
     }
 })
 
@@ -61,4 +61,4 @@ handler
     cors({
       credentials: true
     })
-  )
+  );
