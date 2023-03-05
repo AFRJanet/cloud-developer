@@ -26,7 +26,7 @@ export const handler = middy(
       }
     }
 
-    const todos = getTodosForUser(userId)
+    const todos = await getTodosForUser(userId)
 
     return {
       statusCode: 201,

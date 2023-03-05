@@ -10,8 +10,6 @@ import { getUserId } from '../utils'
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const todoId = event.pathParameters.todoId
-    // TODO: Remove a TODO item by id
-    
     const userId = getUserId(event)
 
     if(!userId)
@@ -27,7 +25,7 @@ export const handler = middy(
       }
     }
 
-    const result = deleteTodo(todoId)
+    const result = await deleteTodo(todoId, userId)
 
     if(result)
     {
@@ -38,7 +36,8 @@ export const handler = middy(
         },
         body: JSON.stringify({
           userId: userId,
-          todoId: todoId
+          todoId: todoId,
+          todoItem: result
         })
       }
     } else {

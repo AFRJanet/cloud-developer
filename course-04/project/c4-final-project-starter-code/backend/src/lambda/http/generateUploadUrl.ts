@@ -26,7 +26,7 @@ export const handler = middy(
       }
     }
 
-    const url = createAttachmentPresignedUrl(todoId)
+    const url = await createAttachmentPresignedUrl(todoId)
 
     if(url)
     {
